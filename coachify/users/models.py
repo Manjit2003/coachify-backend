@@ -40,7 +40,9 @@ class Class(models.Model):
 
 
 class Student(BaseUserData, models.Model):
-    parent = models.ForeignKey("Parent", related_name="students", blank=True)
+    parent = models.ForeignKey(
+        "Parent", related_name="students", blank=True, on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.name
@@ -53,7 +55,16 @@ class User(BaseUserData, AbstractUser):
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
 
-    Students = models.ManyToManyField("users.Student", blank=True)
+    email = models.EmailField(
+        _("email address"),
+        unique=True,
+        error_messages={
+            "unique": _("A user with that email already exists."),
+        },
+    )
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+    teachers = models.ManyToManyField(Teacher, related_name="principal", blank=True)
 
     #: First and last name do not cover name patterns around the globe
     first_name = None  # type: ignore
