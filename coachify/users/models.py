@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
@@ -5,6 +7,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class BaseUserData(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     phone = models.CharField(max_length=255, verbose_name=_("Phone"))
     email = models.EmailField(max_length=255, verbose_name=_("Email"))
@@ -54,6 +58,8 @@ class User(BaseUserData, AbstractUser):
     If adding fields that need to be filled at user signup,
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     email = models.EmailField(
         _("email address"),
