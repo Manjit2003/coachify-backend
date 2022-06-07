@@ -13,6 +13,7 @@ class BaseUserData(models.Model):
     phone = models.CharField(max_length=255, verbose_name=_("Phone"))
     email = models.EmailField(max_length=255, verbose_name=_("Email"))
     address = models.CharField(max_length=255, verbose_name=_("Address"))
+    gender = models.CharField(_("Gender"), max_length=255, default="male")
     avatar = models.ImageField(upload_to="avatars/", verbose_name=_("Avatar"))
 
     class Meta:
