@@ -10,11 +10,14 @@ class ParentSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    parent = ParentSerializer()
+    parent = ParentSerializer(
+        read_only=True,
+    )
 
     class Meta:
         model = Student
         fields = "__all__"
+        read_only_fields = ("id",)
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -26,7 +29,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class ClassSerializer(serializers.ModelSerializer):
-    teacher = TeacherSerializer()
+    teacher = TeacherSerializer(read_only=True)
     students = StudentSerializer(many=True, read_only=True)
 
     class Meta:
