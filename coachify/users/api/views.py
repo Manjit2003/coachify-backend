@@ -1,4 +1,5 @@
-from rest_framework import viewsets
+from rest_framework import views, viewsets
+from rest_framework.response import Response
 
 from coachify.users.api.serializers import (
     ClassSerializer,
@@ -43,3 +44,16 @@ class ClassAPIViewSet(viewsets.ModelViewSet):
 
     queryset = Class.objects.all()
     serializer_class = ClassSerializer
+
+
+class DashboardDataView(views.APIView):
+    def get(self, request):
+
+        return Response(
+            {
+                "teachers": Teacher.objects.count(),
+                "students": Student.objects.count(),
+                "classes": Class.objects.count(),
+                "parents": Parent.objects.count(),
+            }
+        )
